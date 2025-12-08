@@ -17,7 +17,7 @@ function BookingList() {
       const data = await api.getBookings();
       setBookings(data);
       setError('');
-    } catch (err) {
+    } catch {
       setError('Failed to load bookings. Please make sure the backend is running.');
     } finally {
       setLoading(false);
@@ -32,7 +32,7 @@ function BookingList() {
     try {
       await api.deleteBooking(id);
       setBookings(bookings.filter(booking => booking.id !== id));
-    } catch (err) {
+    } catch {
       setError('Failed to delete booking. Please try again.');
     }
   };
