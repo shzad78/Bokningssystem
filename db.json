@@ -1,0 +1,56 @@
+{
+  "bookings": [
+    {
+      "customerName": "shahzad babar",
+      "email": "shzad78@gmail.com",
+      "phone": "0727896082",
+      "service": "Massage",
+      "date": "2025-12-11",
+      "time": "09:00",
+      "notes": "",
+      "status": "confirmed",
+      "id": 3
+    }
+  ],
+  "services": [
+    {
+      "id": 1,
+      "name": "Haircut",
+      "duration": 30,
+      "price": 50,
+      "description": "Professional haircut and styling"
+    },
+    {
+      "id": 2,
+      "name": "Massage",
+      "duration": 60,
+      "price": 80,
+      "description": "Relaxing full body massage"
+    },
+    {
+      "id": 3,
+      "name": "Facial",
+      "duration": 45,
+      "price": 70,
+      "description": "Deep cleansing facial treatment"
+    },
+    {
+      "id": 4,
+      "name": "Manicure",
+      "duration": 30,
+      "price": 40,
+      "description": "Hand care and nail polish"
+    }
+  ],
+  "timeSlots": [
+    "09:00",
+    "10:00",
+    "11:00",
+    "12:00",
+    "13:00",
+    "14:00",
+    "15:00",
+    "16:00",
+    "17:00"
+  ]
+}
