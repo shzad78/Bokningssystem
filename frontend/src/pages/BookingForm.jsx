@@ -29,7 +29,7 @@ function BookingForm() {
         ]);
         setServices(servicesData);
         setTimeSlots(timeSlotsData);
-      } catch (err) {
+      } catch {
         setError('Failed to load form data. Please make sure the backend is running.');
       }
     };
@@ -51,7 +51,7 @@ function BookingForm() {
     try {
       await api.createBooking(formData);
       navigate('/bookings');
-    } catch (err) {
+    } catch {
       setError('Failed to create booking. Please try again.');
     } finally {
       setLoading(false);
