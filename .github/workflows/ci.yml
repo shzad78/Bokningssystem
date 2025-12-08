@@ -25,22 +25,23 @@ jobs:
         cache: 'npm'
 
     - name: Install root dependencies
-      run: npm ci
+      run: npm install
 
     - name: Install frontend dependencies
-      run: cd frontend && npm ci
+      run: cd frontend && npm install
 
     - name: Run linter
-      run: npm run lint
+      run: npm run lint:frontend
+      continue-on-error: false
 
     - name: Run unit tests
       run: npm run test:unit
 
     - name: Install Playwright browsers
-      run: cd frontend && npx playwright install --with-deps chromium
+      run: npm run test:e2e:install
 
     - name: Run E2E tests
-      run: npm run test:e2e
+      run: cd frontend && npm run test:e2e
       env:
         CI: true
 
