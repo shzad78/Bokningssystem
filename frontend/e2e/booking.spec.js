@@ -10,10 +10,10 @@ test.describe('Booking System E2E Tests', () => {
     await expect(page.getByText('Book Now')).toBeVisible();
     await expect(page.getByText('View Bookings')).toBeVisible();
 
-    await expect(page.getByText('Haircut')).toBeVisible();
-    await expect(page.getByText('Massage')).toBeVisible();
-    await expect(page.getByText('Facial')).toBeVisible();
-    await expect(page.getByText('Manicure')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Haircut' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Massage' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Facial' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Manicure' })).toBeVisible();
   });
 
   test('should navigate to booking form', async ({ page }) => {
@@ -31,13 +31,13 @@ test.describe('Booking System E2E Tests', () => {
   test('should navigate using navbar links', async ({ page }) => {
     const navbar = page.locator('nav');
 
-    await navbar.getByText('Book').click();
+    await navbar.getByRole('link', { name: 'Book', exact: true }).click();
     await expect(page).toHaveURL('/book');
 
-    await navbar.getByText('Bookings').click();
+    await navbar.getByRole('link', { name: 'Bookings', exact: true }).click();
     await expect(page).toHaveURL('/bookings');
 
-    await navbar.getByText('Home').click();
+    await navbar.getByRole('link', { name: 'Home' }).click();
     await expect(page).toHaveURL('/');
   });
 
@@ -47,6 +47,12 @@ test.describe('Booking System E2E Tests', () => {
     await page.fill('#customerName', 'Test User');
     await page.fill('#email', 'test@example.com');
     await page.fill('#phone', '555-1234');
+
+    // Wait for service options to load by checking if there are multiple options
+    await page.waitForFunction(() => {
+      const select = document.querySelector('#service');
+      return select && select.options.length > 1;
+    }, { timeout: 10000 });
     await page.selectOption('#service', 'Haircut');
 
     const tomorrow = new Date();
@@ -54,6 +60,11 @@ test.describe('Booking System E2E Tests', () => {
     const dateString = tomorrow.toISOString().split('T')[0];
     await page.fill('#date', dateString);
 
+    // Wait for time slots to load by checking if there are multiple options
+    await page.waitForFunction(() => {
+      const select = document.querySelector('#time');
+      return select && select.options.length > 1;
+    }, { timeout: 10000 });
     await page.selectOption('#time', '10:00');
     await page.fill('#notes', 'Test booking');
 
@@ -84,12 +95,15 @@ test.describe('Booking System E2E Tests', () => {
   test('should display bookings in the list', async ({ page }) => {
     await page.goto('/bookings');
 
+    // Wait for either bookings to load or empty state
+    await page.waitForSelector('.booking-card, .empty-state', { timeout: 5000 });
+
     const hasBookings = await page.locator('.booking-card').count() > 0;
 
     if (hasBookings) {
       await expect(page.locator('.booking-card').first()).toBeVisible();
     } else {
-      await expect(page.getByText('No bookings found')).toBeVisible();
+      await expect(page.getByText('No bookings found.')).toBeVisible();
     }
   });
 
