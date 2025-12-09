@@ -108,9 +108,18 @@ describe('BookingForm', () => {
     });
 
     const form = container.querySelector('form');
+
+    // Fill all required fields with valid data
     fireEvent.change(screen.getByLabelText(/Name/i), { target: { value: 'John Doe' } });
     fireEvent.change(screen.getByLabelText(/Email/i), { target: { value: 'john@example.com' } });
-    fireEvent.change(screen.getByLabelText(/Phone/i), { target: { value: '555-1234' } });
+    fireEvent.change(screen.getByLabelText(/Phone/i), { target: { value: '555-123-4567' } });
+    fireEvent.change(screen.getByLabelText(/Service/i), { target: { value: 'Haircut' } });
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const dateString = tomorrow.toISOString().split('T')[0];
+    fireEvent.change(screen.getByLabelText(/Date/i), { target: { value: dateString } });
+    fireEvent.change(screen.getByLabelText(/Time/i), { target: { value: '10:00' } });
 
     fireEvent.submit(form);
 
@@ -134,8 +143,18 @@ describe('BookingForm', () => {
     });
 
     const form = container.querySelector('form');
+
+    // Fill all required fields with valid data
     fireEvent.change(screen.getByLabelText(/Name/i), { target: { value: 'John Doe' } });
     fireEvent.change(screen.getByLabelText(/Email/i), { target: { value: 'john@example.com' } });
+    fireEvent.change(screen.getByLabelText(/Phone/i), { target: { value: '555-123-4567' } });
+    fireEvent.change(screen.getByLabelText(/Service/i), { target: { value: 'Haircut' } });
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const dateString = tomorrow.toISOString().split('T')[0];
+    fireEvent.change(screen.getByLabelText(/Date/i), { target: { value: dateString } });
+    fireEvent.change(screen.getByLabelText(/Time/i), { target: { value: '10:00' } });
 
     fireEvent.submit(form);
 
@@ -158,8 +177,18 @@ describe('BookingForm', () => {
     });
 
     const form = container.querySelector('form');
+
+    // Fill all required fields with valid data
     fireEvent.change(screen.getByLabelText(/Name/i), { target: { value: 'John Doe' } });
     fireEvent.change(screen.getByLabelText(/Email/i), { target: { value: 'john@example.com' } });
+    fireEvent.change(screen.getByLabelText(/Phone/i), { target: { value: '555-123-4567' } });
+    fireEvent.change(screen.getByLabelText(/Service/i), { target: { value: 'Haircut' } });
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const dateString = tomorrow.toISOString().split('T')[0];
+    fireEvent.change(screen.getByLabelText(/Date/i), { target: { value: dateString } });
+    fireEvent.change(screen.getByLabelText(/Time/i), { target: { value: '10:00' } });
 
     fireEvent.submit(form);
 
@@ -192,5 +221,98 @@ describe('BookingForm', () => {
     const dateInput = screen.getByLabelText(/Date/i);
     const today = new Date().toISOString().split('T')[0];
     expect(dateInput).toHaveAttribute('min', today);
+  });
+
+  // Validation tests
+  it('displays validation error for empty name', async () => {
+    render(
+      <BrowserRouter>
+        <BookingForm />
+      </BrowserRouter>
+    );
+
+    const nameInput = screen.getByLabelText(/Name/i);
+    fireEvent.blur(nameInput);
+
+    await waitFor(() => {
+      expect(screen.getByText('Name cannot be empty')).toBeInTheDocument();
+    });
+  });
+
+  it('displays validation error for invalid email', async () => {
+    render(
+      <BrowserRouter>
+        <BookingForm />
+      </BrowserRouter>
+    );
+
+    const emailInput = screen.getByLabelText(/Email/i);
+    fireEvent.change(emailInput, { target: { value: 'invalid-email' } });
+    fireEvent.blur(emailInput);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Please enter a valid email address/i)).toBeInTheDocument();
+    });
+  });
+
+  it('displays validation error for short phone number', async () => {
+    render(
+      <BrowserRouter>
+        <BookingForm />
+      </BrowserRouter>
+    );
+
+    const phoneInput = screen.getByLabelText(/Phone/i);
+    fireEvent.change(phoneInput, { target: { value: '123' } });
+    fireEvent.blur(phoneInput);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Phone number must have at least 10 digits/i)).toBeInTheDocument();
+    });
+  });
+
+  it('prevents submission when validation errors exist', async () => {
+    const { container } = render(
+      <BrowserRouter>
+        <BookingForm />
+      </BrowserRouter>
+    );
+
+    await waitFor(() => {
+      expect(api.getServices).toHaveBeenCalled();
+    });
+
+    const form = container.querySelector('form');
+    fireEvent.submit(form);
+
+    await waitFor(() => {
+      expect(screen.getByText('Please fix the errors below before submitting')).toBeInTheDocument();
+      expect(api.createBooking).not.toHaveBeenCalled();
+    });
+  });
+
+  it('clears validation error when field is corrected', async () => {
+    render(
+      <BrowserRouter>
+        <BookingForm />
+      </BrowserRouter>
+    );
+
+    const emailInput = screen.getByLabelText(/Email/i);
+    
+    // Enter invalid email
+    fireEvent.change(emailInput, { target: { value: 'invalid' } });
+    fireEvent.blur(emailInput);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Please enter a valid email address/i)).toBeInTheDocument();
+    });
+
+    // Correct the email
+    fireEvent.change(emailInput, { target: { value: 'valid@example.com' } });
+
+    await waitFor(() => {
+      expect(screen.queryByText(/Please enter a valid email address/i)).not.toBeInTheDocument();
+    });
   });
 });
