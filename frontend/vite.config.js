@@ -10,5 +10,12 @@ export default defineConfig({
     setupFiles: './src/test/setup.js',
     css: true,
     exclude: ['**/node_modules/**', '**/e2e/**'],
+    // Performance optimizations for CI
+    pool: 'threads',
+    poolOptions: {
+      threads: {
+        singleThread: false,
+      },
+    },
   },
 })
