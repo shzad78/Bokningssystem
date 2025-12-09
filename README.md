@@ -94,25 +94,50 @@ npm run test:e2e
 
 Note: E2E tests will automatically install Playwright browsers on first run.
 
+### Security Checks
+
+Check for security vulnerabilities:
+```bash
+npm run security-check
+```
+
+This runs `npm audit` on both root and frontend dependencies, checking for moderate, high, and critical vulnerabilities.
+
+Check individual packages:
+```bash
+npm run audit           # Root dependencies
+npm run audit:frontend  # Frontend dependencies
+```
+
+**Note:** Security audits are automatically run in CI/CD pipeline on every push and pull request.
+
 ## Project Structure
 
 ```
 Bokningssystem/
-├── db.json                 # JSON Server database
-├── package.json           # Root package configuration
-├── frontend/              # React frontend
+├── db.json                           # JSON Server database
+├── package.json                      # Root package configuration
+├── TESTING.md                        # Comprehensive testing guide
+├── SECURITY.md                       # Security policy and guidelines
+├── CI_PERFORMANCE.md                 # CI/CD performance documentation
+├── Booking_System_API.postman_collection.json  # API test collection
+├── .github/
+│   └── workflows/
+│       └── ci.yml                    # CI/CD pipeline with security checks
+├── frontend/                         # React frontend
 │   ├── src/
-│   │   ├── components/   # Reusable components
-│   │   ├── pages/        # Page components
-│   │   ├── services/     # API services
-│   │   ├── test/         # Test setup
-│   │   ├── App.jsx       # Main app component
-│   │   └── main.jsx      # Entry point
-│   ├── e2e/              # End-to-end tests
-│   ├── playwright.config.js  # Playwright configuration
-│   ├── vite.config.js    # Vite configuration with Vitest
-│   └── package.json      # Frontend dependencies
-└── README.md             # This file
+│   │   ├── components/              # Reusable components
+│   │   ├── pages/                   # Page components
+│   │   ├── services/                # API services
+│   │   ├── test/                    # Test setup
+│   │   ├── **/*.test.{js,jsx}       # Unit tests (Vitest)
+│   │   ├── App.jsx                  # Main app component
+│   │   └── main.jsx                 # Entry point
+│   ├── e2e/                         # End-to-end tests (Playwright)
+│   ├── playwright.config.js         # Playwright configuration
+│   ├── vite.config.js               # Vite configuration with Vitest
+│   └── package.json                 # Frontend dependencies
+└── README.md                        # This file
 ```
 
 ## Available Services
@@ -133,6 +158,23 @@ The JSON Server provides the following endpoints:
 - `DELETE /bookings/:id` - Delete a booking
 - `GET /services` - Get all services
 - `GET /timeSlots` - Get available time slots
+
+## Documentation
+
+- **[TESTING.md](TESTING.md)** - Complete testing guide (77 tests: Vitest, Playwright, Postman)
+- **[SECURITY.md](SECURITY.md)** - Security policy and vulnerability management
+- **[CI_PERFORMANCE.md](CI_PERFORMANCE.md)** - CI/CD performance benchmarks and optimization
+
+## CI/CD Pipeline
+
+Automated checks run on every push and pull request:
+- ✅ Security audits (npm audit)
+- ✅ Code linting (ESLint)
+- ✅ Unit tests (45 Vitest tests)
+- ✅ E2E tests (21 Playwright tests)
+- ✅ Tests on Node.js 18.x and 20.x
+
+Pipeline typically completes in 3-5 minutes.
 
 ## License
 
