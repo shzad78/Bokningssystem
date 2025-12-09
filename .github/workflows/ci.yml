@@ -46,13 +46,19 @@ jobs:
     - name: Run unit tests
       run: npm run test:unit
 
+    - name: Build production bundle
+      run: cd frontend && npm run build
+      env:
+        NODE_ENV: production
+
     - name: Install Playwright browsers
       run: npm run test:e2e:install
 
-    - name: Run E2E tests
+    - name: Run E2E tests (Production Mode)
       run: cd frontend && npm run test:e2e
       env:
         CI: true
+        NODE_ENV: production
 
     - name: Upload Playwright report
       uses: actions/upload-artifact@v4

@@ -164,6 +164,7 @@ The JSON Server provides the following endpoints:
 - **[TESTING.md](TESTING.md)** - Complete testing guide (77 tests: Vitest, Playwright, Postman)
 - **[SECURITY.md](SECURITY.md)** - Security policy and vulnerability management
 - **[CI_PERFORMANCE.md](CI_PERFORMANCE.md)** - CI/CD performance benchmarks and optimization
+- **[PRODUCTION_TESTING.md](PRODUCTION_TESTING.md)** - Production build testing and optimization
 
 ## CI/CD Pipeline
 
@@ -171,10 +172,13 @@ Automated checks run on every push and pull request:
 - ✅ Security audits (npm audit)
 - ✅ Code linting (ESLint)
 - ✅ Unit tests (45 Vitest tests)
-- ✅ E2E tests (21 Playwright tests)
+- ✅ Production build (Vite optimization)
+- ✅ E2E tests against production build (21 Playwright tests)
 - ✅ Tests on Node.js 18.x and 20.x
 
 Pipeline typically completes in 3-5 minutes.
+
+**Note:** E2E tests run against the production build to catch optimization-related bugs.
 
 ## License
 
