@@ -155,7 +155,7 @@ test.describe('Advanced Booking Tests', () => {
     await expect(page).toHaveURL('/');
   });
 
-  test('should show error message when backend is unavailable', async ({ page, context }) => {
+  test('should show error message when backend is unavailable', async ({ page }) => {
     // This test verifies error handling when API fails
     await page.goto('/book');
 
