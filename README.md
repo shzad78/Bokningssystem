@@ -161,10 +161,11 @@ The JSON Server provides the following endpoints:
 
 ## Documentation
 
-- **[TESTING.md](TESTING.md)** - Complete testing guide (77 tests: Vitest, Playwright, Postman)
+- **[TESTING.md](TESTING.md)** - Complete testing guide (50+ unit tests, 21 E2E, 11 API tests)
 - **[SECURITY.md](SECURITY.md)** - Security policy and vulnerability management
 - **[CI_PERFORMANCE.md](CI_PERFORMANCE.md)** - CI/CD performance benchmarks and optimization
 - **[PRODUCTION_TESTING.md](PRODUCTION_TESTING.md)** - Production build testing and optimization
+- **[INPUT_VALIDATION.md](INPUT_VALIDATION.md)** - Form validation rules and error messages
 
 ## CI/CD Pipeline
 
