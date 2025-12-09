@@ -8,7 +8,8 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:5173',
+    // Use production preview URL in CI with NODE_ENV=production, otherwise dev server
+    baseURL: process.env.NODE_ENV === 'production' ? 'http://localhost:4173' : 'http://localhost:5173',
     trace: 'on-first-retry',
   },
 
@@ -27,8 +28,9 @@ export default defineConfig({
       cwd: '..',
     },
     {
-      command: 'npm run dev',
-      url: 'http://localhost:5173',
+      // Use production preview in CI with NODE_ENV=production, otherwise dev server
+      command: process.env.NODE_ENV === 'production' ? 'npm run preview' : 'npm run dev',
+      url: process.env.NODE_ENV === 'production' ? 'http://localhost:4173' : 'http://localhost:5173',
       reuseExistingServer: !process.env.CI,
     },
   ],
