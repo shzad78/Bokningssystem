@@ -68,7 +68,7 @@ function BookingForm() {
         }
         return '';
 
-      case 'phone':
+      case 'phone': {
         if (!value.trim()) {
           return 'Phone number cannot be empty';
         }
@@ -83,6 +83,7 @@ function BookingForm() {
           return 'Phone number can only contain numbers, spaces, hyphens, plus sign and parentheses';
         }
         return '';
+      } 
 
       case 'service':
         if (!value) {
@@ -90,7 +91,7 @@ function BookingForm() {
         }
         return '';
 
-      case 'date':
+      case 'date': {
         if (!value) {
           return 'Please select a date';
         }
@@ -106,6 +107,7 @@ function BookingForm() {
           return 'Date cannot be more than 6 months in the future';
         }
         return '';
+      }
 
       case 'time':
         if (!value) {
@@ -195,7 +197,8 @@ function BookingForm() {
     try {
       await api.createBooking(formData);
       navigate('/bookings');
-    } catch (err) {
+      // eslint-disable-next-line no-unused-vars
+    } catch (_err) {
       setError('Failed to create booking. Please check your internet connection and try again.');
     } finally {
       setLoading(false);
