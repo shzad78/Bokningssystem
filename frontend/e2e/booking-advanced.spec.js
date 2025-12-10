@@ -13,7 +13,7 @@ test.describe('Advanced Booking Tests', () => {
     // Fill out the booking form
     await page.fill('#customerName', 'Alice Johnson');
     await page.fill('#email', 'alice@example.com');
-    await page.fill('#phone', '555-9876');
+    await page.fill('#phone', '555-123-9876');
 
     // Wait for services to load
     await page.waitForFunction(() => {
@@ -159,12 +159,19 @@ test.describe('Advanced Booking Tests', () => {
     // This test verifies error handling when API fails
     await page.goto('/book');
 
-    // Look for potential error messages if backend is down
-    // The app should handle this gracefully
+    // Wait for either error message or form fields to load (with 10 second timeout)
+    await page.waitForFunction(() => {
+      const errorMessage = document.querySelector('.error-message');
+      const serviceSelect = document.querySelector('#service');
+      const hasError = errorMessage && errorMessage.textContent.trim().length > 0;
+      const hasOptions = serviceSelect && serviceSelect.options.length > 1;
+      return hasError || hasOptions;
+    }, { timeout: 10000 });
+
+    // Now verify one of them is actually visible
     const errorMessage = page.locator('.error-message');
     const formFields = page.locator('#service option');
 
-    // Either form loads successfully or error is shown
     const hasError = await errorMessage.isVisible().catch(() => false);
     const hasOptions = await formFields.count() > 1;
 
