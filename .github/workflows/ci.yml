@@ -9,20 +9,16 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
+    timeout-minutes: 15
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup Node.js ${{ matrix.node-version }}
+    - name: Setup Node.js 20.x
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '20.x'
         cache: 'npm'
 
     - name: Install root dependencies
@@ -51,7 +47,19 @@ jobs:
       env:
         NODE_ENV: production
 
+    - name: Get Playwright version
+      id: playwright-version
+      run: echo "version=$(cd frontend && npm list @playwright/test --depth=0 | grep @playwright/test | awk '{print $2}' | tr -d '@')" >> $GITHUB_OUTPUT
+
+    - name: Cache Playwright browsers
+      uses: actions/cache@v4
+      id: playwright-cache
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ runner.os }}-${{ steps.playwright-version.outputs.version }}
+
     - name: Install Playwright browsers
+      if: steps.playwright-cache.outputs.cache-hit != 'true'
       run: npm run test:e2e:install
 
     - name: Run E2E tests (Production Mode)
@@ -64,7 +72,7 @@ jobs:
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: playwright-report-node-${{ matrix.node-version }}
+        name: playwright-report
         path: frontend/playwright-report/
         retention-days: 30
 
@@ -72,6 +80,6 @@ jobs:
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: test-results-node-${{ matrix.node-version }}
+        name: test-results
         path: frontend/test-results/
         retention-days: 30
