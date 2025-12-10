@@ -117,9 +117,12 @@ npm run audit:frontend  # Frontend dependencies
 Bokningssystem/
 ├── db.json                           # JSON Server database
 ├── package.json                      # Root package configuration
+├── API_DOCUMENTATION.md              # Complete API reference
 ├── TESTING.md                        # Comprehensive testing guide
 ├── SECURITY.md                       # Security policy and guidelines
 ├── CI_PERFORMANCE.md                 # CI/CD performance documentation
+├── INPUT_VALIDATION.md               # Form validation rules
+├── PRODUCTION_TESTING.md             # Production testing guide
 ├── Booking_System_API.postman_collection.json  # API test collection
 ├── .github/
 │   └── workflows/
@@ -149,7 +152,7 @@ Bokningssystem/
 
 ## API Endpoints
 
-The JSON Server provides the following endpoints:
+The JSON Server provides a RESTful API on `http://localhost:3001`:
 
 - `GET /bookings` - Get all bookings
 - `GET /bookings/:id` - Get a specific booking
@@ -159,8 +162,11 @@ The JSON Server provides the following endpoints:
 - `GET /services` - Get all services
 - `GET /timeSlots` - Get available time slots
 
+📖 **[Full API Documentation](API_DOCUMENTATION.md)** - Complete API reference with examples, schemas, and client code
+
 ## Documentation
 
+- **[API_DOCUMENTATION.md](API_DOCUMENTATION.md)** - Complete API reference with endpoints, examples, and client code
 - **[TESTING.md](TESTING.md)** - Complete testing guide (50+ unit tests, 21 E2E, 11 API tests)
 - **[SECURITY.md](SECURITY.md)** - Security policy and vulnerability management
 - **[CI_PERFORMANCE.md](CI_PERFORMANCE.md)** - CI/CD performance benchmarks and optimization
@@ -175,9 +181,9 @@ Automated checks run on every push and pull request:
 - ✅ Unit tests (45 Vitest tests)
 - ✅ Production build (Vite optimization)
 - ✅ E2E tests against production build (21 Playwright tests)
-- ✅ Tests on Node.js 18.x and 20.x
+- ✅ Tests on Node.js 20.x with browser caching
 
-Pipeline typically completes in 3-5 minutes.
+Pipeline typically completes in 3-5 minutes (with browser cache).
 
 **Note:** E2E tests run against the production build to catch optimization-related bugs.
 
