@@ -118,6 +118,7 @@ Bokningssystem/
 ├── db.json                           # JSON Server database
 ├── package.json                      # Root package configuration
 ├── API_DOCUMENTATION.md              # Complete API reference
+├── POSTMAN_GUIDE.md                  # Postman collection usage guide
 ├── TESTING.md                        # Comprehensive testing guide
 ├── SECURITY.md                       # Security policy and guidelines
 ├── CI_PERFORMANCE.md                 # CI/CD performance documentation
@@ -167,6 +168,7 @@ The JSON Server provides a RESTful API on `http://localhost:3001`:
 ## Documentation
 
 - **[API_DOCUMENTATION.md](API_DOCUMENTATION.md)** - Complete API reference with endpoints, examples, and client code
+- **[POSTMAN_GUIDE.md](POSTMAN_GUIDE.md)** - Step-by-step guide for using the Postman collection
 - **[TESTING.md](TESTING.md)** - Complete testing guide (50+ unit tests, 21 E2E, 11 API tests)
 - **[SECURITY.md](SECURITY.md)** - Security policy and vulnerability management
 - **[CI_PERFORMANCE.md](CI_PERFORMANCE.md)** - CI/CD performance benchmarks and optimization

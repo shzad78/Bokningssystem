@@ -475,16 +475,20 @@ Booking_System_API.postman_collection.json
 ```
 
 This collection includes:
-- 11 test cases
+- 11 test cases covering all endpoints
 - Automated tests for status codes and response validation
 - Environment variables for easy configuration
 - Complete CRUD operations for bookings
+- Sequential test flow with auto-saved variables
 
-### Import to Postman:
+### Quick Start:
 1. Open Postman
 2. Click "Import"
 3. Select `Booking_System_API.postman_collection.json`
-4. Run the collection to test all endpoints
+4. Make sure the backend is running (`npm run start:backend`)
+5. Run the collection to test all endpoints
+
+📖 **[Complete Postman Guide](POSTMAN_GUIDE.md)** - Detailed instructions for using the collection, running tests, and troubleshooting
 
 ---
 
