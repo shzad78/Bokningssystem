@@ -10,10 +10,11 @@ test.describe('Advanced Booking Tests', () => {
     await page.getByText('Book Now').click();
     await expect(page).toHaveURL('/book');
 
-    // Fill out the booking form
-    await page.fill('#customerName', 'Alice Johnson');
-    await page.fill('#email', 'alice@example.com');
-    await page.fill('#phone', '555-123-9876');
+    // Fill out the booking form with unique name (using unique email instead)
+    const uniqueId = Date.now();
+    await page.fill('#customerName', 'Test User');
+    await page.fill('#email', `testuser${uniqueId}@example.com`);
+    await page.fill('#phone', '555-999-0000');
 
     // Wait for services to load
     await page.waitForFunction(() => {
@@ -42,7 +43,7 @@ test.describe('Advanced Booking Tests', () => {
 
     // Should redirect to bookings page
     await expect(page).toHaveURL('/bookings');
-    await expect(page.getByText('Alice Johnson')).toBeVisible();
+    await expect(page.getByText('Test User')).toBeVisible();
   });
 
   test('should validate required email format', async ({ page }) => {

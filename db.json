@@ -10,17 +10,6 @@
       "notes": "",
       "status": "confirmed",
       "id": 3
-    },
-    {
-      "customerName": "Alice Johnson",
-      "email": "alice@example.com",
-      "phone": "555-123-9876",
-      "service": "Massage",
-      "date": "2025-12-11",
-      "time": "14:00",
-      "notes": "Deep tissue massage please",
-      "status": "confirmed",
-      "id": 4
     }
   ],
   "services": [
